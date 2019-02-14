@@ -1,0 +1,178 @@
+********************************************
+
+run make you will get the myShell comdline tool
+
+usage:
+[1]
+./myShell
+Will run in interactive way
+input "exit" to quit the Myshell
+
+[2]
+./myShell file1 file2 file2
+will run the command line in those files.
+The command in those files must be a completed command for each line.
+***********************************
+
+<<<<Test of exit>>>>
+***********************************
+./myShell
+and type "exit"
+You would quit the myShell
+***********************************
+
+
+
+<<<<Test of run command from pre-complied file, each line a command>>>>
+***********************************
+./myShell testcase.txt
+You would expect result like the  testcase_result.txt
+***********************************
+
+
+
+
+<<<Test of normal command>>>
+***********************************
+g++ my.cpp
+You would expect: Program exited with status 0
+And you will find the file a.out
+***********************************
+./a.out
+You would expect: see all the environment printed out
+***********************************
+/usr/bin/who
+You would expect some thing like the following
+
+ss668    pts/0        2018-04-21 21:55 (cpe-107-15-56-45.nc.res.rr.com)
+ll199    pts/4        2018-04-21 22:34 (cpe-174-109-111-142.nc.res.rr.com)
+ys207    pts/7        2018-04-21 11:43 (cpe-45-37-108-88.nc.res.rr.com)
+lc307    pts/11       2018-04-21 23:04 (172-124-107-76.lightspeed.rlghnc.sbcglobal.net)
+yl481    pts/17       2018-04-21 22:12 (cpe-70-115-137-179.austin.res.rr.com)
+rwy2     pts/19       2018-04-21 23:26 (c-73-189-60-125.hsd1.ca.comcast.net)
+yr41     pts/20       2018-04-21 12:24 (174.99.47.250)
+xl220    pts/22       2018-04-21 19:15 (cpe-174-109-123-72.nc.res.rr.com)
+yw259    pts/26       2018-04-21 19:01 (cpe-174-109-114-202.nc.res.rr.com)
+yr41     pts/27       2018-04-21 12:24 (174.99.47.250)
+***********************************
+ps
+You would expect some thing like the following
+
+PID TTY          TIME CMD
+ 8776 pts/29   00:00:00 bash
+ 10301 pts/29   00:00:00 myShell
+ 10745 pts/29   00:00:00 ps
+ Program exited with status 0
+ ***********************************
+ dfsfdsf
+ You would expect: [cmd: dfsfdsf not found!]
+ ***********************************
+
+
+
+
+<<<Test of CD command>>>
+***********************************
+cd .
+stay in the same dir
+***********************************
+cd ..
+You would expect change dir to parent dir also the prompt message will reflect the new directory
+***********************************
+cd
+You would expect change dir to $home also the prompt message will reflect the new directory
+***********************************
+cd /xxx/xxx/some real path name
+You would expect change dir to target dir also the prompt message will reflect the new directory
+***********************************
+cd /xxx/xxx/some faked path name
+You would expect message[change dir failed]
+***********************************
+
+<<<Test of 'set' and 'export' and 'env' command>>>
+***********************************
+set MY_NAME BINWU
+You would expect message[set variable succeed!]
+***********************************
+echo $MY_NAME BINWU
+You would expect output [BINWU]
+***********************************
+echo $PATH
+You would expect output [/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games]
+***********************************
+export MY_NAME
+You would expect output[export var succeed!]
+***********************************
+env
+You would expect output of the whole environment and the exported variable MY_NAME=BINWU is there
+***********************************
+set *test 999
+You would expect output[set vaible faild! Invalid variable name!]
+***********************************
+set var1 var2 var2
+You would expect output[set vaible faild! Invalid variable number, can only set one car each time!]
+***********************************
+export myname
+you would expect [export var failed, can't find the var[myname]]
+***********************************
+
+
+
+<<<Test of redirect input output and pipe commands>>>
+***********************************
+cat < my.cpp >my.cpp.backup
+you would expect the new file my.cpp.backup with the same content as my.cpp
+***********************************
+diff my.cpp my.cpp.backup
+you would expect no output because they are the same. but just the prompt Program exited with status 0
+***********************************
+cat <my.cpp |grep main|wc >wc.txt
+You would expect new file wc.txt
+***********************************
+cat wc.txt
+you would expect the following output:
+     1       8      46
+     ***********************************
+     cat |
+     you would expect out: [cannot have | at the end of input]
+     ***********************************
+     cat my.cpp >good.cpp|grep main >test|wc
+     you would expect out: [cannot redirect stdout or stderr  for the first command!]
+     ***********************************
+     cat my.cpp|cat|cat|cat|cat|cat|cat
+     you would expect out as follow:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+
+#include <fcntl.h>
+
+#include <sys/stat.h>
+#include <sys/wait.h>
+
+extern char **environ;
+
+int main(int argc, char **argv, char** env) {
+
+
+  system("env");
+
+  //printf("%s\n", "   ");
+    //printf("%s\n", "   ");
+
+
+  //char *argt[] = {"env", NULL};
+    //execve("env", {"env",NULL}, environ);
+
+}
+Program exited with status 0
+***********************************
+cat my.cpp|cat >test|cat
+you would expect out:[cannot redirect stdout, stdin, or stderr to file in the mid of pipe]
+***********************************
+cat ttttt
+you would expect out:[/bin/cat: ttttt: No such file or directory]
+***********************************

@@ -1,0 +1,7 @@
+ls -l
+pwd
+cat main.cpp
+date
+mkdir testdir
+cp my.cpp test.cpp
+
