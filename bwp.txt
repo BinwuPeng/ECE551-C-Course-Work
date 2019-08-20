@@ -1,1 +1,2 @@
 bwp
+This is a test of change
